@@ -1,0 +1,21 @@
+.hg-char {
+  background-color: rgba(255, 64, 64, 0.28);
+  outline: 1px solid rgba(220, 20, 20, 0.55);
+  border-radius: 2px;
+  cursor: help;
+  text-decoration: underline wavy rgba(200, 0, 0, 0.85);
+  text-underline-offset: 2px;
+}
+
+a.hg-suspicious-link {
+  outline: 2px solid rgba(220, 20, 20, 0.6) !important;
+  outline-offset: 1px;
+  border-radius: 2px;
+  cursor: help;
+}
+
+a.hg-suspicious-link::after {
+  content: " \26A0";
+  color: #c81414;
+  font-weight: bold;
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Homoglyph Guard</title>
+<style>
+  body {
+    width: 260px;
+    font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    padding: 14px;
+    color: #1a1a1a;
+  }
+  h1 {
+    font-size: 15px;
+    margin: 0 0 10px;
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .switch {
+    position: relative;
+    width: 40px;
+    height: 22px;
+  }
+  .switch input { display: none; }
+  .slider {
+    position: absolute;
+    inset: 0;
+    background: #ccc;
+    border-radius: 22px;
+    transition: 0.15s;
+    cursor: pointer;
+  }
+  .slider::before {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    left: 2px;
+    top: 2px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.15s;
+  }
+  input:checked + .slider { background: #c81414; }
+  input:checked + .slider::before { transform: translateX(18px); }
+  .stat {
+    background: #f5f5f5;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 8px;
+  }
+  .stat b { font-size: 20px; }
+  .muted { color: #666; font-size: 12px; }
+  footer { font-size: 11px; color: #888; margin-top: 10px; line-height: 1.4; }
+</style>
+</head>
+<body>
+  <h1>Homoglyph Guard</h1>
+  <div class="row">
+    <span>Enabled on this device</span>
+    <label class="switch">
+      <input type="checkbox" id="toggle" />
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="stat">
+    <div><b id="charCount">0</b> flagged character(s) on this page</div>
+  </div>
+  <div class="stat">
+    <div><b id="linkCount">0</b> suspicious link(s) on this page</div>
+  </div>
+
+  <footer>
+    Highlighted text mixes Latin letters with lookalikes from Cyrillic/Greek/other
+    scripts. Suspicious links have hostnames that mix scripts or use punycode
+    (xn--). Always double-check before entering credentials or payment info.
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>
