@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<title>Homoglyph Guard – Testseite</title>
+<style>
+  body { font-family: sans-serif; max-width: 700px; margin: 40px auto; line-height: 1.6; }
+  h2 { border-bottom: 1px solid #ccc; padding-bottom: 4px; }
+  .case { margin-bottom: 22px; }
+  .expect { color: #666; font-size: 13px; }
+  code { background: #f0f0f0; padding: 2px 5px; border-radius: 3px; }
+</style>
+</head>
+<body>
+  <h1>Testseite für Homoglyph Guard</h1>
+  <p>Lade die Extension, öffne dann diese Datei im Browser (Datei → Öffnen, oder per Doppelklick).
+  Jeder Block unten beschreibt, was du sehen <em>solltest</em>.</p>
+
+  <h2>1. Gefälschtes Wort im Text (sollte markiert werden)</h2>
+  <div class="case">
+    <p>Bitte bestätige dein Konto bei <b> Р а y p a l</b> ... eigentlich so geschrieben ohne Leerzeichen: <b>Раypal</b></p>
+    <p class="expect">Erwartung: Das "Р" und "а" (kyrillisch) sollten rot unterstrichen/markiert sein.</p>
+  </div>
+
+  <div class="case">
+    <p>Willkommen bei <b>Аpple</b> Support.</p>
+    <p class="expect">Erwartung: Das "А" am Anfang (kyrillisch, U+0410) sollte markiert sein.</p>
+  </div>
+
+  <div class="case">
+    <p>Ihr Paket von <b>Аmazοn</b> wurde versendet.</p>
+    <p class="expect">Erwartung: "А" (kyrillisch) und "ο" (griechisch) sollten beide markiert sein.</p>
+  </div>
+
+  <h2>2. Verdächtige Links (sollten mit ⚠ markiert werden)</h2>
+  <div class="case">
+    <p><a href="https://раypal.com/login">Hier klicken zum Einloggen</a></p>
+    <p class="expect">Erwartung: Link-Rahmen rot, ⚠-Symbol, Tooltip zeigt gemischte Skripte im Hostnamen.</p>
+  </div>
+
+  <div class="case">
+    <p><a href="https://xn--pple-43d.com/">Apple Support Seite</a></p>
+    <p class="expect">Erwartung: Link wird als ⚠ markiert, weil die Domain Punycode (xn--) verwendet.</p>
+  </div>
+
+  <div class="case">
+    <p><a href="https://apple.com/">Echter Apple-Link (normal)</a></p>
+    <p class="expect">Erwartung: <b>Keine</b> Markierung – ganz normale Latin-Domain.</p>
+  </div>
+
+  <h2>3. Kontrolle: Sollte NICHT markiert werden (kein Fehlalarm)</h2>
+  <div class="case">
+    <p>Ein komplett russischer Satz: Привет, как дела? Это тестовый текст.</p>
+    <p class="expect">Erwartung: Keine Markierung – reiner kyrillischer Text ohne Latin-Mischung.</p>
+  </div>
+
+  <div class="case">
+    <p>Ein normaler deutscher Satz mit Umlauten: Äpfel, Bäume und Öfen sind schön.</p>
+    <p class="expect">Erwartung: Keine Markierung – normale Latin-Zeichen (auch mit Umlauten).</p>
+  </div>
+
+</body>
+</html>
